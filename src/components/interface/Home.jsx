@@ -4,7 +4,7 @@ import "./home.css"
 function Home() {
   return (
     <div className='homeContainer' style={styles.homeContainer}>
-      <h1 className='heading' style={styles.heading}>Welcome to NovaMind AI!</h1>
+      <h1 className='heading' style={styles.heading}>Welcome to Gemini AI!</h1>
       <p className="sub-heading" style={styles.subHeading}>Your personal assistant for smarter interactions and updates!</p>
 
 
