@@ -7,7 +7,7 @@ import TypingEffect from './typingeffect';
 import { recent_context } from '../context/cont';
 import FormModal from './modal';
 import { Link, useNavigate } from 'react-router-dom';
-// import  SpeechRecognition ,{ useSpeechRecognition } from 'react-speech-recognition';
+import { Username } from '../interface/Login';
 
 export const Array = []
 const input_value = (name) => {
@@ -45,16 +45,11 @@ function Response_Bar() {
                 const response_data = await res.json()
                 setresponse(response_data.response)
 
-              
-
-
-
                 setloading(false)
             } catch (error) {
-                // console.log(error.message)
-                // console.log({ error: "An error occured " })
+                console.log(error.message)
+                console.log({ error: "An error occured " })
             }
-
         }
 
         fetch_data()
@@ -172,7 +167,7 @@ function Response_Bar() {
                     </>
                 ) : <div className='main'>
                     <div className="greet">
-                        <p><span>hello naveen</span> </p>
+                        <p><span>hello {Username} </span> </p>
                         <p>how can i help you</p>
                     </div>
                     <div className="cards">
@@ -260,32 +255,7 @@ function Response_Bar() {
 
 
 
-const styles = {
-    container: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      height: "100vh",
-      backgroundColor: "#f4f4f9",
-      fontFamily: "Arial, sans-serif",
-    },
-    timerText: {
-      fontSize: "48px",
-      fontWeight: "bold",
-      margin: "0",
-      color :"red"
-    },
-    subText: {
-      fontSize: "18px",
-      color: "#555",
-    },
-    timeOver: {
-      fontSize: "48px",
-      fontWeight: "bold",
-      color: "red",
-    },
-  };
+
 
   
 

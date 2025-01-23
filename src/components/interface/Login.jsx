@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+export const Username = []
+
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+
 
  
     const navigate = useNavigate(); 
@@ -16,6 +20,7 @@ const Login = () => {
 
         }
       
+        Username.push(username)
 
         const res = await fetch("https://render-back-end-2.onrender.com/login", {
             method: "POST",

@@ -1,23 +1,29 @@
-.modal-container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
 
+.modal-container {
+  position: absolute;
+  top: 80px;
+  right: 10px; 
+  width: auto;
+  z-index: 9999;
+  display: block; 
 }
 
 .modal-dialog {
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   background-color: #1f1f1f;
   border-radius: 20px;
   padding: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; 
+  gap: 20px; 
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
+
 
 .modal-header {
   display: flex;
@@ -48,12 +54,18 @@
   color: #f39c12;
 }
 
+
 .form-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 15px 0;
+  gap: 15px; 
   width: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .form-control {
@@ -71,9 +83,33 @@
   border-color: #6200ea;
 }
 
+
+.rating-stars {
+  display: flex;
+  gap: 5px;
+  justify-content: flex-start; 
+}
+
+.rating-stars .star {
+  font-size: 1.8rem;
+  color: #e4e5e9;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.rating-stars .star:hover {
+  color: #ffc107;
+  transform: scale(1.2);
+}
+
+.rating-stars .star.selected {
+  color: #ffc107;
+}
+
 .modal-footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start; 
+  gap: 10px;
   padding: 15px 20px;
   width: 100%;
 }
@@ -85,10 +121,12 @@
   color: #fff;
   border: none;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .modal-footer button:hover {
   background-color: #3700b3;
+  transform: scale(1.05);
 }
 
 .user-icon {
@@ -96,20 +134,19 @@
   height: 90px;
   border-radius: 50%;
   overflow: hidden;
-  margin: 0 auto 15px;
+  margin: 0 auto; 
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  border: 3px solid #6200ea; 
 }
 
 .user-icon img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; 
 }
 
-.modal-dialog {
-  opacity: 0;
-  transform: translateY(-20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
 
 .modal-container.show .modal-dialog {
   opacity: 1;
@@ -119,5 +156,19 @@
 @media (max-width: 768px) {
   .modal-dialog {
     max-width: 90%;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+  }
+
+  .modal-footer button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  .user-icon {
+    width: 70px;
+    height: 70px;
   }
 }

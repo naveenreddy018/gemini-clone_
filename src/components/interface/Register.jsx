@@ -223,7 +223,7 @@ const styles = {
   message: {
     textAlign: 'center',
     fontSize: '26px',
-    color: '#FF5722',
+    color: 'lightgreen',
   },
   buttonsSection: {
     display: 'flex',
