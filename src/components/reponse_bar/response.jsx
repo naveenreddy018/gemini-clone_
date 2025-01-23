@@ -1,177 +1,128 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 import { assets } from '../../assets/assets';
 import ImageComponent from '../ImageComponent/image';
-import "./response.css"
+import "./response.css";
 
 import TypingEffect from './typingeffect';
 import { recent_context } from '../context/cont';
 import FormModal from './modal';
-import { Link, useNavigate } from 'react-router-dom';
-import { Username } from '../interface/Login';
+import { Link } from 'react-router-dom';
 
-export const Array = []
-const input_value = (name) => {
-    // Array.push(name)
-}
+export const Array = [];
 
 function Response_Bar() {
-    const [Display, setdisplay] = useState(false)
-    const [prompt, setprompt] = useState("");
-    const [sendrequest, setsendrequest] = useState(" ")
-    const [response, setresponse] = useState("")
-    const [loading, setloading] = useState(null)
-    const { setRecent_items } = useContext(recent_context)
-    const [toggle, settoggle] = useState(false)
-    const [user_ModalBody,setuser_modal] = useState(false)
-    const [clicked,setclicked] = useState(false)
-
-
-    input_value(prompt)
+    const [Display, setDisplay] = useState(false);
+    const [prompt, setPrompt] = useState("");
+    const [sendRequest, setSendRequest] = useState(" ");
+    const [response, setResponse] = useState("");
+    const [loading, setLoading] = useState(null);
+    const { setRecent_items } = useContext(recent_context);
+    const [toggle, setToggle] = useState(false);
+    const [userModalBody, setUserModalBody] = useState(false);
+    const [clicked, setClicked] = useState(false);
 
     useEffect(() => {
-
-
-        const fetch_data = async () => {
-
+        const fetchData = async () => {
             try {
                 const res = await fetch("https://render-back-end-2.onrender.com/prompt", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ prompt: sendrequest })
-                })
+                    body: JSON.stringify({ prompt: sendRequest })
+                });
 
-                const response_data = await res.json()
-                setresponse(response_data.response)
-
-                setloading(false)
+                const responseData = await res.json();
+                setResponse(responseData.response);
+                setLoading(false);
             } catch (error) {
-                console.log(error.message)
-                console.log({ error: "An error occured " })
+                console.error(error.message);
+                console.error({ error: "An error occurred " });
             }
+        };
+
+        if (sendRequest) {
+            fetchData();
         }
+    }, [sendRequest]);
 
-        fetch_data()
+    useEffect(() => {
+        if (clicked) {
+            Array.push(prompt);
+        }
+    }, [sendRequest]);
 
-    }, [sendrequest])
-    
-    useEffect(()=>{
-        if(clicked){
-
-         
-       Array.push(prompt)
-            
-          }
-    },[sendrequest])
-
-    // useEffect(()=>{
-    //     if (timeLeft === 0) {
-    //         setTimerEnded(true);
-    //         navigate("/login")
-    //         return;
-    //     }
-
-    //     const intervalId = setInterval(() => {
-    //         setTimeLeft(prevTime => prevTime - 1);
-    //     }, 1000);
-
-
-    //     return () => clearInterval(intervalId);
-    // },[timeLeft])
-    // const minutesLeft = Math.floor(timeLeft / 60);
-    // const secondsLeft = timeLeft % 60;
-
-
-    const Handle_toggle = () => {
-        settoggle(prev => !prev)
-
-
+    const handleToggle = () => {
+        setToggle((prev) => !prev);
         document.body.style.backgroundColor = toggle ? "white" : "black";
         document.body.style.color = toggle ? "black" : "white";
-    }
+    };
 
     return (
         <div className='response-container'>
             <div className='header'>
-
                 <div className='logo'>
                     <ImageComponent
                         src={assets.Gemini_Advanced_logo}
-                        style={{
-                            width: 150
-                        }}
+                        style={{ width: 150 }}
                     />
-
                 </div>
                 <div className="nav">
-            
                     <div className='nav-name'>
-                        <a href="https://one.google.com/explore-plan/gemini-advanced?utm_source=g1&utm_medium=paid_media&utm_campaign=sem_gemini_g1_sl&gad_source=1&gclid=CjwKCAiAp4O8BhAkEiwAqv2UqMzHjs04CxKR7HG8uySaCqdi-LLQvAZlU7qjV_7odhwoyLCVVPnDURoCoLkQAvD_BwE&g1_landing_page=65">Try advanced Gemini</a>
+                        <a href="https://one.google.com/explore-plan/gemini-advanced">Try advanced Gemini</a>
                     </div>
                     <div className="toggle_bar">
-                        <button style={{
-                            backgroundColor : toggle ? "black" : "white",
-                           color: toggle ? "white" : "black"
-                        }} onClick={Handle_toggle} >
+                        <button
+                            style={{
+                                backgroundColor: toggle ? "black" : "white",
+                                color: toggle ? "white" : "black"
+                            }}
+                            onClick={handleToggle}
+                        >
                             <Link to="/">Return to Home</Link>
                         </button>
-                  
                     </div>
                     <div className='nav-hamburger'>
-                    
-                        <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.bard&hl=en_IN&pli=1">
-                        
-                        <ImageComponent
-                            src="https://e7.pngegg.com/pngimages/530/733/png-clipart-goggle-playstore-icon-google-play-computer-icons-android-play-button-angle-rectangle-thumbnail.png"
-                            style={{
-                                width: 35,
-                                borderRadius: '0%'
-                            }}
-                        />
-                        
+                        <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.bard">
+                            <ImageComponent
+                                src="https://e7.pngegg.com/pngimages/530/733/png-clipart-goggle-playstore-icon-google-play-computer-icons-android-play-button-angle-rectangle-thumbnail.png"
+                                style={{ width: 35, borderRadius: '0%' }}
+                            />
                         </a>
                     </div>
-
                     <div className='nav-user-icon'>
                         <ImageComponent
                             src={assets.user_icon}
-                            style={{
-                                width: 40,
-                                borderRadius: '50%'
-                            }}
-                            onClick={()=>setuser_modal(prev => !prev)}
+                            style={{ width: 40, borderRadius: '50%' }}
+                            onClick={() => setUserModalBody((prev) => !prev)}
                         />
                     </div>
-                   {
-                    user_ModalBody ?  <FormModal className="pos" /> : null
-                   }
+                    {userModalBody && <FormModal className="pos" />}
                 </div>
             </div>
-            {
-                Display ? (
-                    <>
-                        <div className='dialog-box'>
-                            <div>{
-                                loading ? (
-                                    <div className="loader">
-                                        <div className="bar"></div>
-                                        <div className="bar"></div>
-                                        <div className="bar"></div>
-                                        <div className="bar"></div>
-                                    </div>
-
-                                ) : <div > <TypingEffect text={response} queryt={prompt} delay={30} /></div>
-                            }</div>
-                        </div>
-                    </>
-                ) : <div className='main'>
+            {Display ? (
+                <div className='dialog-box'>
+                    <div>{
+                        loading ? (
+                            <div className="loader">
+                                <div className="bar"></div>
+                                <div className="bar"></div>
+                                <div className="bar"></div>
+                                <div className="bar"></div>
+                            </div>
+                        ) : (
+                            <TypingEffect text={response} queryt={prompt} delay={30} />
+                        )
+                    }</div>
+                </div>
+            ) : (
+                <div className='main'>
                     <div className="greet">
-                        <p><span>hello {Username} </span> </p>
+                        <p><span>hello naveen</span></p>
                         <p>how can i help you</p>
                     </div>
                     <div className="cards">
-                        <div className="card" >
+                        <div className="card">
                             <p>suggest beautiful places to see on an upcoming road trip</p>
                             <ImageComponent className="card_image" src={assets.compass_icon} />
                         </div>
@@ -184,38 +135,38 @@ function Response_Bar() {
                             <ImageComponent className="card_image" src={assets.message_icon} />
                         </div>
                         <div className="card">
-                            <p>imporove the readibility of the code </p>
+                            <p>improve the readability of the code</p>
                             <ImageComponent className="card_image" src={assets.code_icon} />
                         </div>
                     </div>
-
                 </div>
-            }
+            )}
             <div className='footer'>
                 <div className='input-bar'>
-                    <input type='text' style={{
-                        backgroundColor: toggle ? "black" : "white",
-                        color: toggle ? "white" : "back"
-                    }} onChange={(e) => setprompt(e.target.value)} value={prompt} placeholder='Enter ur prompt' />
+                    <input
+                        type='text'
+                        style={{
+                            backgroundColor: toggle ? "black" : "white",
+                            color: toggle ? "white" : "black"
+                        }}
+                        onChange={(e) => setPrompt(e.target.value)}
+                        value={prompt}
+                        placeholder='Enter your prompt'
+                    />
                 </div>
-
                 <div className='additonal-icons'>
                     <div className='mic-icon'>
                         <ImageComponent
                             src={assets.mic_icon}
-                            style={{
-                                width: 30
-                            }}
+                            style={{ width: 30 }}
                         />
                     </div>
                     <div>
                         <input
                             type="file"
                             id="file-input"
-                            style={{
-                                display: "none",
-                            }}
-                            onChange={(e) => setprompt(e.target.value)}
+                            style={{ display: "none" }}
+                            onChange={(e) => setPrompt(e.target.value)}
                         />
                         <label
                             htmlFor="file-input"
@@ -232,31 +183,20 @@ function Response_Bar() {
                     <div className='send-icon'>
                         <ImageComponent
                             src={assets.send_icon}
-                            style={{
-                                width: 30
-                            }}
+                            style={{ width: 30 }}
                             onClick={() => {
-                                setsendrequest(prompt);
-                                setloading(true);
-                                setdisplay(prev => !prev);
+                                if (!Display) setDisplay(true);
+                                setSendRequest(prompt);
+                                setLoading(true);
                                 setRecent_items(prompt);
-                                setclicked(true)
+                                setClicked(true);
                             }}
                         />
                     </div>
                 </div>
-
             </div>
-
-
         </div>
-    )
+    );
 }
-
-
-
-
-
-  
 
 export default Response_Bar;
