@@ -7,6 +7,7 @@ import TypingEffect from './typingeffect';
 import { recent_context } from '../context/cont';
 import FormModal from './modal';
 import { Link } from 'react-router-dom';
+import { Username } from '../interface/Login';
 
 export const Array = [];
 
@@ -97,7 +98,7 @@ function Response_Bar() {
                             onClick={() => setUserModalBody((prev) => !prev)}
                         />
                     </div>
-                    {userModalBody && <FormModal className="pos" />}
+                    {userModalBody && <FormModal className="pos" name={Username} />}
                 </div>
             </div>
             {Display ? (
@@ -118,8 +119,8 @@ function Response_Bar() {
             ) : (
                 <div className='main'>
                     <div className="greet">
-                        <p><span>hello naveen</span></p>
-                        <p>how can i help you</p>
+                        <p><span>Hello {Username}</span></p>
+                        <p>How can i help you</p>
                     </div>
                     <div className="cards">
                         <div className="card">
