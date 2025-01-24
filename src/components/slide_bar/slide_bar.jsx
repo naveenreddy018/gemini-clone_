@@ -4,6 +4,7 @@ import { assets } from '../../assets/assets';
 import './slide.css';
 import { recent_context } from '../context/cont.jsx';
 import { Array } from '../reponse_bar/response.jsx';
+import { Link } from 'react-router-dom';
 
 
 function Slide_Bar() {
@@ -90,7 +91,7 @@ function Slide_Bar() {
               width: 30,
             }}
           />
-          {menu && <p>History</p>}
+          {menu && <Link to="/history">History</Link>}
         </div>
         <div className='bottom-entry-item'>
           <ImageComponent
@@ -99,7 +100,7 @@ function Slide_Bar() {
               width: 30,
             }}
           />
-          {menu && <p>Help</p>}
+            {menu && <Link to="/Help">Help</Link>}
         </div>
         <div className='bottom-entry-item'>
           <ImageComponent

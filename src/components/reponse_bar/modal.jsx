@@ -7,53 +7,52 @@ import ImageComponent from '../ImageComponent/image';
 import { assets } from '../../assets/assets';
 
 function FormModal({ name }) {
-  const [displayModal, setDisplayModal] = useState(true); 
-  const [selectedOption, setSelectedOption] = useState(""); 
-  const [rating, setRating] = useState(0); 
-
+  const [displayModal, setDisplayModal] = useState(true);
+  const [selectedOption, setSelectedOption] = useState('');
+  const [rating, setRating] = useState(0);
 
   const modalDisplay = () => {
-    setDisplayModal(false); 
+    setDisplayModal(false);
   };
 
   const handleOptionChange = (e) => {
-    setSelectedOption(e.target.value); 
+    setSelectedOption(e.target.value);
   };
 
   const handleStarClick = (star) => {
-    setRating(star); 
+    setRating(star);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (selectedOption && rating > 0) {
-      modalDisplay(); 
+      modalDisplay();
     } else {
-      alert("Please select an option and provide a rating before submitting.");
+      alert('Please select an option and provide a rating before submitting.');
     }
   };
 
   return (
     <div className="modal-container modal show">
-      {displayModal ? (
+      {displayModal && (
         <Modal.Dialog>
           <Modal.Header closeButton>
-            <Modal.Title>Hello {name}</Modal.Title>
+            <Modal.Title>
+              <span className="modal-title-highlight">Hello, {name}!</span>
+            </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
             <Form className="form-container" onSubmit={handleSubmit}>
-              <Form.Group className="mb-3">
-                <div className="user-icon">
-                  <ImageComponent src={assets.user_icon} />
-                </div>
-          
-              </Form.Group>
+              <div className="user-icon">
+                <ImageComponent src={assets.user_icon} />
+              </div>
 
-         
               <Form.Group className="mb-3">
-                <Form.Label>How would you rate our service?</Form.Label>
-                <div>
+                <Form.Label className="custom-label">
+                  How would you rate our service?
+                </Form.Label>
+                <div className="radio-options">
                   <Form.Check
                     type="radio"
                     label="Good"
@@ -78,38 +77,32 @@ function FormModal({ name }) {
                 </div>
               </Form.Group>
 
-  
               <Form.Group className="mb-3">
-                <Form.Label>Rate Us:</Form.Label>
+                <Form.Label className="custom-label">Rate Us:</Form.Label>
                 <div className="rating-stars">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <span
                       key={star}
-                      className={`star ${star <= rating ? "selected" : ""}`}
+                      className={`star ${star <= rating ? 'selected' : ''}`}
                       onClick={() => handleStarClick(star)}
-                      style={{
-                        cursor: "pointer",
-                        fontSize: "1.5rem",
-                        color: star <= rating ? "#ffc107" : "#e4e5e9",
-                      }}
                     >
                       ★
                     </span>
                   ))}
                 </div>
               </Form.Group>
-
-            
             </Form>
           </Modal.Body>
 
           <Modal.Footer>
-            <Button variant="secondary" onClick={modalDisplay}>Cancel</Button>
-            <Button variant="primary" type="submit" onClick={handleSubmit}>Submit</Button>
+            <Button variant="secondary" onClick={modalDisplay} className="custom-button">
+              Cancel
+            </Button>
+            <Button variant="primary" type="submit" onClick={handleSubmit} className="custom-button">
+              Submit
+            </Button>
           </Modal.Footer>
         </Modal.Dialog>
-      ) : (
-        ""
       )}
     </div>
   );

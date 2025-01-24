@@ -11,10 +11,11 @@ import { Username } from '../interface/Login';
 
 export const Array = [];
 
+
 function Response_Bar() {
     const [Display, setDisplay] = useState(false);
     const [prompt, setPrompt] = useState("");
-    const [sendRequest, setSendRequest] = useState(" ");
+    const [sendRequest, setSendRequest] = useState("");
     const [response, setResponse] = useState("");
     const [loading, setLoading] = useState(null);
     const { setRecent_items } = useContext(recent_context);
@@ -22,6 +23,7 @@ function Response_Bar() {
     const [userModalBody, setUserModalBody] = useState(false);
     const [clicked, setClicked] = useState(false);
 
+    // Fetch server data
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -30,7 +32,7 @@ function Response_Bar() {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ prompt: sendRequest })
+                    body: JSON.stringify({ prompt: sendRequest }),
                 });
 
                 const responseData = await res.json();
@@ -38,7 +40,7 @@ function Response_Bar() {
                 setLoading(false);
             } catch (error) {
                 console.error(error.message);
-                console.error({ error: "An error occurred " });
+                console.error({ error: "An error occurred" });
             }
         };
 
@@ -59,42 +61,53 @@ function Response_Bar() {
         document.body.style.color = toggle ? "black" : "white";
     };
 
+    const handleCardClick = (cardText) => {
+        setPrompt(cardText); 
+        setSendRequest(cardText); 
+        setLoading(true); 
+        setDisplay(true); 
+        setRecent_items(cardText); 
+        setClicked(true); 
+    };
+
     return (
-        <div className='response-container'>
-            <div className='header'>
-                <div className='logo'>
+        <div className="response-container">
+            <div className="header">
+                <div className="logo">
                     <ImageComponent
                         src={assets.Gemini_Advanced_logo}
                         style={{ width: 150 }}
                     />
                 </div>
                 <div className="nav">
-                    <div className='nav-name'>
-                        <a href="https://one.google.com/explore-plan/gemini-advanced">Try advanced Gemini</a>
+                    <div className="nav-name">
+                        <a href="https://one.google.com/explore-plan/gemini-advanced">
+                            Try advanced Gemini
+                        </a>
                     </div>
                     <div className="toggle_bar">
                         <button
                             style={{
                                 backgroundColor: toggle ? "black" : "white",
-                                color: toggle ? "white" : "black"
+                                color: toggle ? "white" : "black",
                             }}
                             onClick={handleToggle}
                         >
                             <Link to="/">Return to Home</Link>
                         </button>
                     </div>
-                    <div className='nav-hamburger'>
+                    <div className="nav-hamburger">
                         <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.bard">
                             <ImageComponent
                                 src="https://e7.pngegg.com/pngimages/530/733/png-clipart-goggle-playstore-icon-google-play-computer-icons-android-play-button-angle-rectangle-thumbnail.png"
-                                style={{ width: 35, borderRadius: '0%' }}
+                                style={{ width: 35, borderRadius: "0%" }}
                             />
                         </a>
                     </div>
-                    <div className='nav-user-icon'>
+                    <div className="nav-user-icon">
                         <ImageComponent
                             src={assets.user_icon}
-                            style={{ width: 40, borderRadius: '50%' }}
+                            style={{ width: 40, borderRadius: "50%" }}
                             onClick={() => setUserModalBody((prev) => !prev)}
                         />
                     </div>
@@ -102,9 +115,9 @@ function Response_Bar() {
                 </div>
             </div>
             {Display ? (
-                <div className='dialog-box'>
-                    <div>{
-                        loading ? (
+                <div className="dialog-box">
+                    <div>
+                        {loading ? (
                             <div className="loader">
                                 <div className="bar"></div>
                                 <div className="bar"></div>
@@ -113,54 +126,72 @@ function Response_Bar() {
                             </div>
                         ) : (
                             <TypingEffect text={response} queryt={prompt} delay={30} />
-                        )
-                    }</div>
+                        )}
+                    </div>
                 </div>
             ) : (
-                <div className='main'>
+                <div className="main">
                     <div className="greet">
-                        <p><span>Hello {Username}</span></p>
-                        <p>How can i help you</p>
+                        <p>
+                            <span>Hello {Username}</span>
+                        </p>
+                        <p>How can I help you?</p>
                     </div>
                     <div className="cards">
-                        <div className="card">
-                            <p>suggest beautiful places to see on an upcoming road trip</p>
+                       
+                        <div
+                            className="card"
+                            onClick={() =>
+                                handleCardClick(
+                                    "Suggest beautiful places to see on an upcoming road trip"
+                                )
+                            }
+                        >
+                            <p>Suggest beautiful places to see on an upcoming road trip</p>
                             <ImageComponent className="card_image" src={assets.compass_icon} />
                         </div>
-                        <div className="card">
-                            <p>brief summarize this concept</p>
+                        <div
+                            className="card"
+                            onClick={() =>
+                                handleCardClick("Briefly summarize this concept")
+                            }
+                        >
+                            <p>Briefly summarize this concept</p>
                             <ImageComponent className="card_image" src={assets.bulb_icon} />
                         </div>
-                        <div className="card">
-                            <p>five habits to follow daily</p>
+                        <div
+                            className="card"
+                            onClick={() => handleCardClick("Five habits to follow daily")}
+                        >
+                            <p>Five habits to follow daily</p>
                             <ImageComponent className="card_image" src={assets.message_icon} />
                         </div>
-                        <div className="card">
-                            <p>improve the readability of the code</p>
+                        <div
+                            className="card"
+                            onClick={() => handleCardClick("Improve the readability of the code")}
+                        >
+                            <p>Improve the readability of the code</p>
                             <ImageComponent className="card_image" src={assets.code_icon} />
                         </div>
                     </div>
                 </div>
             )}
-            <div className='footer'>
-                <div className='input-bar'>
+            <div className="footer">
+                <div className="input-bar">
                     <input
-                        type='text'
+                        type="text"
                         style={{
                             backgroundColor: toggle ? "black" : "white",
-                            color: toggle ? "white" : "black"
+                            color: toggle ? "white" : "black",
                         }}
                         onChange={(e) => setPrompt(e.target.value)}
                         value={prompt}
-                        placeholder='Enter your prompt'
+                        placeholder="Enter your prompt"
                     />
                 </div>
-                <div className='additonal-icons'>
-                    <div className='mic-icon'>
-                        <ImageComponent
-                            src={assets.mic_icon}
-                            style={{ width: 30 }}
-                        />
+                <div className="additonal-icons">
+                    <div className="mic-icon">
+                        <ImageComponent src={assets.mic_icon} style={{ width: 30 }} />
                     </div>
                     <div>
                         <input
@@ -181,7 +212,7 @@ function Response_Bar() {
                             }}
                         ></label>
                     </div>
-                    <div className='send-icon'>
+                    <div className="send-icon">
                         <ImageComponent
                             src={assets.send_icon}
                             style={{ width: 30 }}

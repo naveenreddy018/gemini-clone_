@@ -16,6 +16,8 @@ import ImageComponent from './components/ImageComponent/image';
 import { assets } from './assets/assets';
 import AboutGeminiAI from './components/interface/project';
 
+import Help from './components/interface/Help';
+
 
 
 function App() {
@@ -33,6 +35,8 @@ function App() {
         <div style={styles.content}>
           <Routes>
             <Route path="/" element={<Home />} />
+            {/* <Route path="/history" element={<History />} /> */}
+            <Route path="/Help" element={<Help />} />
             <Route path="/chat" element={<div style={styles.content}><Hello /></div>} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -45,12 +49,15 @@ function App() {
   );
 }
 
-
 function AppNavbar({ toggleTheme, isDarkMode }) {
   const location = useLocation();
 
-
-  const hideNavbar = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/chat';
+  // Hide Navbar on specific routes, including '/history'
+  const hideNavbar = 
+    location.pathname === '/login' || 
+    location.pathname === '/register' || 
+    location.pathname === '/chat' || 
+    location.pathname === '/Help'; 
 
   return (
     <>
@@ -84,7 +91,7 @@ function AppNavbar({ toggleTheme, isDarkMode }) {
                   <Link to="/about" className="nav-link" style={styles.navLink}>About</Link>
                 </Nav.Item>
               </Nav>
-              <Button variant={isDarkMode ?  "outline-light" : "outline-dark"} onClick={toggleTheme} className='toggle' style={styles.toggleButton}>
+              <Button variant={isDarkMode ? "outline-light" : "outline-dark"} onClick={toggleTheme} className='toggle' style={styles.toggleButton}>
                 <ImageComponent src={assets.toggle} style={{ width: 40, borderRadius: '300px' }} />
               </Button>
             </Navbar.Collapse>
@@ -94,6 +101,7 @@ function AppNavbar({ toggleTheme, isDarkMode }) {
     </>
   );
 }
+
 const styles = {
   appContainerLight: {
     display: 'flex',

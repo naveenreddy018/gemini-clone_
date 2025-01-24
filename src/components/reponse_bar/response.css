@@ -19,6 +19,9 @@
     background-color: white;
     color:  red !important;
 }
+
+
+
 .toggle_bar button :hover{
     background-color:pink;
     padding: 10px;
