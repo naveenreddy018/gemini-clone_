@@ -62,13 +62,13 @@ function App3() {
       <AppNavbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
       <Home />
       <div style={styles.content}>
-        {/* <Routes>
+      <Routes>
           <Route path="/auth" element={<App3 />} />
           <Route path="/Help" element={<Help />} />
           <Route path="/chat" element={<div style={styles.content}><Hello /></div>} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/about" element={<AboutGeminiAI />} />
-        </Routes> */}
+        </Routes> 
       </div>
     </div>
   );
