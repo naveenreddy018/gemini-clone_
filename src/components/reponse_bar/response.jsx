@@ -8,6 +8,7 @@ import { recent_context } from '../context/cont';
 import FormModal from './modal';
 import { Link } from 'react-router-dom';
 import { Username } from '../interface/Login';
+import { photo } from '../interface/setting';
 
 export const Array = [];
 
@@ -23,11 +24,12 @@ function Response_Bar() {
     const [userModalBody, setUserModalBody] = useState(false);
     const [clicked, setClicked] = useState(false);
 
-    // Fetch server data
+    console.log(photo)
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch("https://render-back-end-2.onrender.com/prompt", {
+                const res = await fetch("https://render-back-end-4.onrender.com/prompt", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -86,14 +88,9 @@ function Response_Bar() {
                         </a>
                     </div>
                     <div className="toggle_bar">
-                        <button
-                            style={{
-                                backgroundColor: toggle ? "black" : "white",
-                                color: toggle ? "white" : "black",
-                            }}
-                            onClick={handleToggle}
+                        <button   
                         >
-                            <Link to="/">Return to Home</Link>
+                            <Link to="/auth">Return to Home</Link>
                         </button>
                     </div>
                     <div className="nav-hamburger">
@@ -105,11 +102,11 @@ function Response_Bar() {
                         </a>
                     </div>
                     <div className="nav-user-icon">
-                        <ImageComponent
-                            src={assets.user_icon}
-                            style={{ width: 40, borderRadius: "50%" }}
-                            onClick={() => setUserModalBody((prev) => !prev)}
-                        />
+                    <ImageComponent
+      src={photo && photo.length > 0 ? photo[0] : assets.user_icon} 
+      style={{ width: 40, borderRadius: "50%" }}
+      onClick={() => setUserModalBody((prev) => !prev)} 
+    />
                     </div>
                     {userModalBody && <FormModal className="pos" name={Username} />}
                 </div>
@@ -191,7 +188,7 @@ function Response_Bar() {
                 </div>
                 <div className="additonal-icons">
                     <div className="mic-icon">
-                        <ImageComponent src={assets.mic_icon} style={{ width: 30 }} />
+                        <ImageComponent  src={assets.mic_icon} style={{ width: 30 }} />
                     </div>
                     <div>
                         <input

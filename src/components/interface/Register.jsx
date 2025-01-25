@@ -5,29 +5,28 @@ const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [otp, setOtp] = useState('');
-  const [errors, setErrors] = useState({})
-  const [button,clickbutton] = useState(false)
-  const[display,setdisplay] = useState(false)
-  const [otpcheck,setotpcheck] = useState(false)
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-
-  const baseUrl = 'https://render-back-end-2.onrender.com';
+  const baseUrl = 'https://render-back-end-4.onrender.com';
 
   const validateInputs = () => {
     const newErrors = {};
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/;
 
-    if (!username.trim()) newErrors.username = 'Username is required.';
+    if (!username.trim()) {
+      newErrors.username = 'Username is required.';
+    }
     if (!password) {
       newErrors.password = 'Password is required.';
     } else if (password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters long.';
-    } else if (!/[A-Z]/.test(password)) {
-      newErrors.password = 'Password must contain at least one uppercase letter.';
-    } else if (!/[a-z]/.test(password)) {
-      newErrors.password = 'Password must contain at least one lowercase letter.';
-    } else if (!/[0-9]/.test(password)) {
-      newErrors.password = 'Password must contain at least one digit.';
+    } else if (!passwordRegex.test(password)) {
+      newErrors.password =
+        'Password must include at least one uppercase letter and one special symbol.';
+    }
+    if (!otp) {
+      newErrors.otp = 'OTP is required.';
     }
 
     setErrors(newErrors);
@@ -39,66 +38,52 @@ const Register = () => {
 
     if (!validateInputs()) return;
 
-    const res = await fetch(`${baseUrl}/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      const res = await fetch(`${baseUrl}/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
+      console.log(data); 
 
-
-    if (data.message) {
-      if (otp !== '') {
-        setotpcheck(true)
+  
+      if (data.message === 'resgistered successfully') {
+        alert('You have registered successfully!');
+        navigate('/login'); 
       } else {
-        
-        // alert('Enter OTP');
+        alert(data.message);
       }
-    } else {
-      alert('Username already taken');
+    } catch (error) {
+      alert('An error occurred while registering.');
     }
   };
 
   const handleOtpClick = async () => {
-
-
     if (!username.trim()) {
       setErrors({ username: 'Username is required to get OTP.' });
       return;
     }
- 
-    const res = await fetch(`${baseUrl}/getotp`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username }),
-    });
 
-    const data = await res.json();
+    try {
+      const res = await fetch(`${baseUrl}/getotp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username }),
+      });
 
-  
-    setOtp(data.otp);
-    alert('OTP sent to your email.');
-  };
-
-  const handleHomeClick = () => {
-    navigate('/');
-  };
-
-  const handleLoginClick = () => {
-    navigate('/login');
-  };
-  const setmessage =()=>{
-
-    if(otp){
-      clickbutton(true)
-      setotpcheck(true)
-      setdisplay(true)
-    }else{
-      alert("enter otp")
+      const data = await res.json();
+      setOtp(data.otp);
+      alert('OTP sent to your username.');
+    } catch (error) {
+      alert('An error occurred while sending OTP.');
     }
-  
-  }
+  };
+
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
 
   return (
     <div style={styles.container}>
@@ -109,7 +94,7 @@ const Register = () => {
             id="username"
             type="text"
             value={username}
-            placeholder='enter username'
+            placeholder="Enter username"
             onChange={(e) => setUsername(e.target.value)}
             style={styles.input}
           />
@@ -119,51 +104,50 @@ const Register = () => {
           <input
             id="password"
             type="password"
-            placeholder='enter password'
             value={password}
+            placeholder="Enter password"
             onChange={(e) => setPassword(e.target.value)}
             style={styles.input}
           />
           {errors.password && <span style={styles.error}>{errors.password}</span>}
 
-          <button onClick={handleOtpClick}  style={styles.otpBtn}>Get OTP</button>
+          <button type="button" onClick={handleOtpClick} style={styles.otpBtn}>Get OTP</button>
 
           <input
             type="text"
-            id="verifyotp"
+            id="otp"
             value={otp}
-            onChange={(e) => setOtp(e.target.value)}
             placeholder="Enter OTP"
+            onChange={(e) => setOtp(e.target.value)}
             style={styles.input}
           />
-
-          <button type="submit" onClick={setmessage} style={styles.submitBtn}>Register</button>
           {errors.otp && <span style={styles.error}>{errors.otp}</span>}
-         
 
-          {
-          button && otpcheck  &&  display && <h1 style={styles.message}>Register successfully</h1>
-          }
+          <button type="submit" style={styles.submitBtn}>Register</button>
         </form>
-      </div>
 
-      <div style={styles.buttonsSection}>
-        <button onClick={handleHomeClick} style={styles.homeBtn}>Home</button>
-        <button onClick={handleLoginClick} style={styles.loginBtn}>Login</button>
+        <div style={styles.buttonsSection}>
+         
+          <button onClick={() => handleNavigate('/login')} style={styles.loginBtn}>Login</button>
+        </div>
       </div>
     </div>
   );
 };
+
+
+
 const styles = {
   container: {
     display: 'flex',
-    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
-    backgroundColor: '#121212',
+    backgroundImage: 'url(https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
     color: '#fff',
-    padding: '20px',
   },
   registerSection: {
     display: 'flex',
@@ -172,22 +156,20 @@ const styles = {
     width: '350px',
     padding: '30px',
     borderRadius: '8px',
-    backgroundColor: '#1E1E1E',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    backdropFilter: 'blur(10px)',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-    border: '1px solid #333',
-    marginBottom: '20px',
   },
   form: {
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
   },
-  error: { color: 'red', fontSize: '12px' },
   label: {
     marginBottom: '10px',
-    fontSize: '14px',
+    fontSize: '18px',
     fontWeight: 'bold',
-    color: '#fff',
+    color: 'red',
   },
   input: {
     padding: '12px',
@@ -198,17 +180,6 @@ const styles = {
     backgroundColor: '#333',
     color: '#fff',
   },
-  submitBtn: {
-    padding: '12px',
-    fontSize: '16px',
-    backgroundColor: '#00A1E1',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    marginBottom: '10px',
-    transition: 'background-color 0.3s ease',
-  },
   otpBtn: {
     padding: '12px',
     fontSize: '16px',
@@ -218,12 +189,19 @@ const styles = {
     borderRadius: '5px',
     cursor: 'pointer',
     marginBottom: '10px',
-    transition: 'background-color 0.3s ease',
   },
-  message: {
-    textAlign: 'center',
-    fontSize: '26px',
-    color: 'lightgreen',
+  submitBtn: {
+    padding: '12px',
+    fontSize: '16px',
+    backgroundColor: '#00A1E1',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+  },
+  error: {
+    color: 'red',
+    fontSize: '12px',
   },
   buttonsSection: {
     display: 'flex',
@@ -239,17 +217,15 @@ const styles = {
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
   },
   loginBtn: {
-    padding: '12px',
+    padding: '12px 70px',
     fontSize: '16px',
     backgroundColor: '#FF5722',
     color: '#fff',
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
   },
 };
 

@@ -10,9 +10,7 @@ import { Link } from 'react-router-dom';
 function Slide_Bar() {
   const [menu, setMenu] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  // const { Recent_items } = useContext(recent_context)
-  // const arr = Array.join('')
-  // console.log(arr)
+
 
 
   useEffect(() => {
@@ -40,7 +38,9 @@ function Slide_Bar() {
           style={{
             width: 30,
             margin: 10,
+           
           }}
+             title = "click on hamburger"
           onClick={() => setMenu((prev) => !prev)}
         />
 
@@ -53,6 +53,7 @@ function Slide_Bar() {
                   width: 30,
                   margin: 5
                 }}
+                title = "New chat"
               />
               {menu && <p>New Chat</p>}
             </div>
@@ -84,7 +85,7 @@ function Slide_Bar() {
       </div>
 
       <div className='bottom'>
-        <div className='bottom-entry-item'>
+        {/* <div className='bottom-entry-item'>
           <ImageComponent
             src={assets.history_icon}
             style={{
@@ -92,13 +93,14 @@ function Slide_Bar() {
             }}
           />
           {menu && <Link to="/history">History</Link>}
-        </div>
+        </div> */}
         <div className='bottom-entry-item'>
           <ImageComponent
             src={assets.question_icon}
             style={{
               width: 30,
             }}
+            title = "Click on Hamburger to access"
           />
             {menu && <Link to="/Help">Help</Link>}
         </div>
@@ -108,8 +110,9 @@ function Slide_Bar() {
             style={{
               width: 30,
             }}
+                 title = "Click on Hamburger to access"
           />
-          {menu && <p>Settings</p>}
+          {menu && <Link to="/settings">Settings</Link>}
         </div>
       </div>
     </div>

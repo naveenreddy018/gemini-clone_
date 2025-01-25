@@ -1,49 +1,58 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const Username = []
+export const Username = [];
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
-
-
- 
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
-        if(username === "" || password === ""){
-            alert("enter details properly ")
 
+        if (username === "" || password === "") {
+            setError("Please enter both username and password.");
+            return;
         }
+
+
+        setError('');
+
+
+        Username.push(username);
+
+        try {
       
-        Username.push(username)
+            const res = await fetch("https://render-back-end-4.onrender.com/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
+            });
 
-        const res = await fetch("https://render-back-end-2.onrender.com/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password })
-        });
+            const data = await res.json();
 
-        const data = await res.json();
+            if (res.ok) {
+                localStorage.setItem("token", JSON.stringify(data.token1));
+                navigate('/auth');
+            } else {
+                setError(data.message || 'Login failed');
+            }
 
-
-        localStorage.setItem("token", JSON.stringify(data.token1));
-        navigate('/profile');
-
+        } catch (error) {
+            setError("An error occurred while logging in.");
+            console.error("Login error:", error);
+        }
     };
-
 
     const handleRegisterClick = () => {
-        navigate("/register"); 
+        navigate("/");
     };
 
-    const handleHomeClick = () => {
-        navigate("/"); 
-    };
+  
 
     return (
         <div style={styles.container}>
@@ -53,6 +62,7 @@ const Login = () => {
                     id="name"
                     type="text"
                     value={username}
+                    placeholder='ENTER USERNAME'
                     onChange={(e) => setUsername(e.target.value)}
                     style={styles.input}
                 />
@@ -60,33 +70,37 @@ const Login = () => {
                 <input 
                     id="pass"
                     type="password"
+                    placeholder='ENTER PASSWORD'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     style={styles.input}
                 />
                 <input type="submit" value="Login" style={styles.submitBtn} />
             </form>
-         
+
+
+            {error && <div style={{color : "red",fontSize : "20px"}}>{error}</div>}
 
             <div style={styles.buttonContainer}>
-          
-                <button onClick={handleHomeClick} style={styles.button}>Home</button>
+              
                 <button onClick={handleRegisterClick} style={styles.button}>Register</button>
             </div>
         </div>
     );
 };
-
 const styles = {
     container: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        backgroundColor: '#121212',
+        
         color: '#fff',
         padding: '20px',
         flexDirection: 'column', 
+      
+        backgroundImage: 'url(https://images.unsplash.com/photo-1636690424408-4330adc3e583?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)', // Replace with your image URL
+        backgroundSize: 'cover',
     },
     form: {
         display: 'flex',
@@ -94,15 +108,16 @@ const styles = {
         width: '300px',
         padding: '30px',
         borderRadius: '8px',
-        backgroundColor: '#1E1E1E',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
         marginBottom: '20px',
+        backgroundColor: 'rgba(255, 255, 255, 0.15)',
+        backdropFilter: 'blur(10px)', 
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
     },
     label: {
         marginBottom: '10px',
-        fontSize: '14px',
+        fontSize: '18px',
         fontWeight: 'bold',
-        color: '#fff',
+        color: 'red',
     },
     input: {
         padding: '12px',
@@ -125,12 +140,13 @@ const styles = {
     },
     buttonContainer: {
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         width: '300px', 
         marginTop: '20px',
     },
     button: {
-        padding: '12px',
+        padding: '12px ',
+        textAlign: 'center',
         fontSize: '16px',
         backgroundColor: '#FF5722',
         color: '#fff',
@@ -138,7 +154,7 @@ const styles = {
         borderRadius: '5px',
         cursor: 'pointer',
         transition: 'background-color 0.3s ease',
-        width: '48%', 
+        width: '68%', 
     },
 };
 

@@ -1,4 +1,4 @@
-/* General container for the Help page */
+
 .help-container {
     font-family: 'Times New Roman', Times, serif;
     padding: 40px;
@@ -6,10 +6,10 @@
     font-family: 'Roboto', sans-serif;
     background-color: #ffffff;
     box-sizing: border-box;
-    font-size: 1.5rem;  /* Set base font size to 1.5rem for readability */
+    font-size: 1.5rem;  
   }
   
-  /* Header styles */
+
   .help-container h1 {
     font-size:4rem;
     color: #333;
@@ -18,8 +18,7 @@
     font-weight: 600;
     line-height: 1.2;
   }
-  
-  /* FAQ Section */
+
   .faq-section {
     margin-bottom: 40px;
   }
@@ -31,12 +30,11 @@
     font-weight: 500;
   }
   
-  /* FAQ item styles */
   .faq-item {
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
-    gap: 15px;  /* Maintain gap between question and answer */
+    gap: 15px; 
   }
   
   .question {
@@ -71,18 +69,18 @@
   }
   
   .answer ul {
-    list-style-type: disc; /* Use disc bullets for lists */
+    list-style-type: disc; 
     padding-left: 20px;
     margin: 0;
-    gap: 10px; /* Gap between each list item */
+    gap: 10px;
   }
   
-  /* How-to section */
+
   .how-to-use {
     margin-top: 40px;
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Maintain gap between list items */
+    gap: 20px; 
   }
   
   .how-to-use h2 {
@@ -100,8 +98,7 @@
     font-size: 1.5rem;
     color: #555;
   }
-  
-  /* Support call section */
+
   .support-call {
     margin-top: 40px;
   }
@@ -121,15 +118,14 @@
   .support-call ul {
     list-style-type: none;
     padding: 0;
-    gap: 10px;  /* Maintain gap between support call items */
+    gap: 10px;  
   }
   
   .support-call li {
     font-size: 1.5rem;
     color: #555;
   }
-  
-  /* Responsive Layout */
+
   @media screen and (max-width: 768px) {
     .faq-section h2, .how-to-use h2, .support-call h2 {
       font-size: 2rem;
