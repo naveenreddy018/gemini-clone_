@@ -2,8 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/interface/Login';
 import Register from './components/interface/Register';
-import Profile from './components/interface/Profile';
-import App1 from './components/authenticate/auth';
 import App3 from './components/authenticate/res';
 import Hello from './components/main/Hello';
 import AboutGeminiAI from './components/interface/project';

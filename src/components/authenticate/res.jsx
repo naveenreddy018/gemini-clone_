@@ -4,13 +4,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-import Home from '../interface/home';
+
 import Profile from '../interface/Profile';
-import ImageComponent from '../ImageComponent/image';
-import { assets } from '../../assets/assets';
 import AboutGeminiAI from '../interface/project';
 import Help from '../interface/Help';
 import Hello from '../main/Hello';
+import Home from "../interface/Home"
+
 
 function App3() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -60,7 +60,7 @@ function App3() {
   return (
     <div style={isDarkMode ? styles.appContainerDark : styles.appContainerLight}>
       <AppNavbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
-      <Home />
+      <Home  />
       <div style={styles.content}>
       <Routes>
           <Route path="/auth" element={<App3 />} />
