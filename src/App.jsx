@@ -7,6 +7,7 @@ import Hello from './components/main/Hello';
 import AboutGeminiAI from './components/interface/project';
 import Help from './components/interface/Help';
 import Settings from './components/interface/setting';
+import Profile from './components/interface/Profile';
 
 
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/auth" element={<div ><App3 /></div>} />
             <Route path="/Help" element={<Help />} />
             <Route path="/settings" element={<Settings /> }/>
+            <Route path="/profile" element={<Profile/> }/>
 
       </Routes>
     </Router>

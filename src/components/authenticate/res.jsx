@@ -14,48 +14,48 @@ import Home from "../interface/Home"
 
 function App3() {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const navigate = useNavigate();
+
 
   const toggleTheme = () => {
     setIsDarkMode((prevMode) => !prevMode);
   };
 
 
-  useEffect(() => {
-    const token = localStorage.getItem('token'); 
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token'); 
 
-    if (!token) {
-      alert('Please log in first');
-      navigate('/login');
-    } else {
-      const sanitizedToken = token.replace(/^"|"$/g, ''); 
-      fetchProfile(sanitizedToken);
-    }
-  }, []);
+  //   if (!token) {
+  //     alert('Please log in first');
+  //     navigate('/login');
+  //   } else {
+  //     const sanitizedToken = token.replace(/^"|"$/g, ''); 
+  //     fetchProfile(sanitizedToken);
+  //   }
+  // }, []);
 
 
-  const fetchProfile = async (token) => {
-    try {
-      const response = await fetch('https://render-back-end-4.onrender.com/profile', {
-        method: 'GET',
-        headers: { 'Authorization': `Bearer ${token}` },
-      });
+  // const fetchProfile = async (token) => {
+  //   try {
+  //     const response = await fetch('https://render-back-end-4.onrender.com/profile', {
+  //       method: 'GET',
+  //       headers: { 'Authorization': `Bearer ${token}` },
+  //     });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Profile:', data.message);
-        navigate('/auth'); 
-      } else {
-        const error = await response.text();
-        alert(error);
-        navigate('/login');
-      }
-    } catch (error) {
-      alert('Something went wrong!');
-      console.error('Error fetching profile:', error);
-      navigate('/login');
-    }
-  };
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       console.log('Profile:', data.message);
+  //       navigate('/auth'); 
+  //     } else {
+  //       const error = await response.text();
+  //       alert(error);
+  //       navigate('/login');
+  //     }
+  //   } catch (error) {
+  //     alert('Something went wrong!');
+  //     console.error('Error fetching profile:', error);
+  //     navigate('/login');
+  //   }
+  // };
 
   return (
     <div style={isDarkMode ? styles.appContainerDark : styles.appContainerLight}>

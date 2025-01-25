@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const Username = [];
@@ -9,6 +9,14 @@ const Login = () => {
     const [error, setError] = useState('');
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            // Optionally verify the token with the server
+            navigate('/profile'); // Redirect to home page if token is present
+        }
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -37,7 +45,7 @@ const Login = () => {
 
             if (res.ok) {
                 localStorage.setItem("token", JSON.stringify(data.token1));
-                navigate('/auth');
+                navigate('/profile');
             } else {
                 setError(data.message || 'Login failed');
             }
